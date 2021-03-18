@@ -3,9 +3,49 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0/dist/chartjs-plugin-streaming.min.js"></script>
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <canvas id="myChart"></canvas>
+    <script>
+      var ctx = document.getElementById('myChart').getContext('2d');
+
+var chart = new Chart(ctx, {
+
+  type: 'line',
+
+  data: {
+
+    datasets: [{
+
+      data: []
+
+    }, {
+
+      data: []
+
+    }]
+
+  },
+
+  options: {
+
+    scales: {
+
+      xAxes: [{
+
+        type: 'realtime'
+
+      }]
+
+    }
+
+  }
+
+});
+    </script>
   </body>
 </html>
