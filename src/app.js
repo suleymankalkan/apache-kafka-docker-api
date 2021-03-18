@@ -20,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/restApi', restApiRouter);
@@ -28,6 +29,7 @@ app.use('/restApi', restApiRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -41,3 +43,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
