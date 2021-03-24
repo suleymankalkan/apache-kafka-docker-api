@@ -15,22 +15,8 @@ router.get('/', requestLogger, async(req, res) => {
 
 /* POST Method */
 /* It should be able to accept empty request body*/
-router.post('/', async(req, res) => {
-    let responseTime = await getRandomIntInclusive(0,3000);
-    let timeStamp = moment().format();
-    let logRes = {
-        "statusCode" : "200",
-        "methodType" : "POST",
-        "responseTime" : responseTime,
-        "timeStamp" : timeStamp
-    };
-    if(!(Object.keys(req.body).length === 0 && req.body.constructor === Object))
-        logRes["reqBody"] = req.body;
-    await logger.log({
-        level: 'info',
-        message: `${logRes.methodType},${logRes.responseTime},${logRes.timeStamp}`
-      });
-    await setTimeout((()=>{res.json(logRes)}), responseTime);
+router.post('/', requestLogger,  async(req, res) => {
+    setTimeout((()=>{res.json(req.log)}), req.log.responseTime);
 });
 
 /* PUT Method */
