@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "concurrently \"node ./bin/www\" \"node ./kafkaHandler/kafka.js\""
+    "start": "concurrently \"node ./bin/www\" \"node ./kafkaHandler/producer.js\" \"node ./kafkaHandler/consumer.js\""
   },
   "dependencies": {
     "concurrently": "^6.0.0",
