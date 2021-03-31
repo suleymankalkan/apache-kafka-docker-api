@@ -6,46 +6,70 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0/dist/chartjs-plugin-streaming.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   </head>
-  <body>
+  <body onload="loadChart();">
     <h1><%= title %></h1>
     <canvas id="myChart"></canvas>
     <script>
-      var ctx = document.getElementById('myChart').getContext('2d');
-
-var chart = new Chart(ctx, {
-
-  type: 'line',
-
-  data: {
-
-    datasets: [{
-
-      data: []
-
-    }, {
-
-      data: []
-
-    }]
-
-  },
-
-  options: {
-
-    scales: {
-
-      xAxes: [{
-
-        type: 'realtime'
-
-      }]
-
-    }
-
-  }
-
-});
+      var ctx = document.getElementById("myChart");
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+        labels: ['DELETE', 'PUT', 'POST', 'GET'],
+        datasets: [{
+            label: 'Requests',
+            data: [],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+        options: {
+          scales: {
+            xAxes: [],
+            yAxes: [{
+              ticks: {
+                beginAtZero:true
+              }
+            }]
+          }
+        }
+      });
+      var updateChart = function() {
+        $.ajax({
+          url: "http://localhost:3000/getLogs",
+          type: 'GET',
+          dataType: 'json',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function(data) {
+            console.log(data.methodType)
+            myChart.data.labels = data.methodType;
+            myChart.data.datasets[0].data = data;
+            myChart.update();
+          },
+          error: function(data){
+            console.log(data);
+          }
+        });
+      }
+      
+      updateChart();
+      setInterval(() => {
+        updateChart();
+      }, 1000);
     </script>
   </body>
 </html>
