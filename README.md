@@ -28,7 +28,11 @@ localhost:3000
 |PUT|localhost:3000/restApi/put|
 |DELETE|localhost:3000/restApi/delete|
 
-```python
-lorem ipsum
+İstek göndermek için postman gibi bir tool yada aşağıdaki örnek curl komutlarını kullanabilirsiniz.
+```bash
+curl --request GET http://localhost:3000/restApi/get
+curl --request POST http://localhost:3000/restApi/post
+curl --request DELETE http://localhost:3000/restApi/delete
+curl --request PUT http://localhost:3000/restApi/put
 ```
 
