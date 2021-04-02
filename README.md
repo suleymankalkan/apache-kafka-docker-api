@@ -1,4 +1,5 @@
 # Kartaca Uygulama-Servis Geliştirme Görevi
+Süleyman Kalkan
 
 Özel Anahtar Kodu:
 ```bash
@@ -8,20 +9,24 @@ gAAAAABgUImSH93U9If0Ir4vcNIEGwiZijyj1PNu9Yy0XJKaqQy0BFiUX5KR_pbcAFWg9yn0z0VnOIqQ
 
 ## Kurulum
 
-Aşağıdaki komutları çalıştırarak projeyi çalıştırabilirsiniz.
+Aşağıdaki komut ile projeyi çalıştırabilirsiniz.
 
 ```bash
-docker build .
-docker run blabla
+docker-compose up -d
+```
+## Canlı Dashboard
+
+```bash
+localhost:3000
 ```
 
 ## REST API 
-|Metod|URL|Örnek istek|Örnek Cevap|
-|---|---|---|---|
-|GET|/restApi|   |   |
-|POST|/restApi|   |   |
-|PUT|/restApi|   |   |
-|DELETE|/restApi|   |   |
+|Metod|URL|
+|---|---|
+|GET|localhost:3000/restApi/get|
+|POST|localhost:3000/restApi/post|
+|PUT|localhost:3000/restApi/put|
+|DELETE|localhost:3000/restApi/delete|
 
 ```python
 lorem ipsum
