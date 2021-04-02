@@ -9,24 +9,24 @@ The API Requirements
 */
 
 /* GET Method */
-router.get('/', requestLogger, async(req, res) => {
+router.get('/get', requestLogger, async(req, res) => {
     setTimeout((()=>{res.json(req.log)}), req.log.responseTime);
 });
 
 /* POST Method */
 /* It should be able to accept empty request body*/
-router.post('/', requestLogger,  async(req, res) => {
+router.post('/post', requestLogger,  async(req, res) => {
     setTimeout((()=>{res.json(req.log)}), req.log.responseTime);
 });
 
 /* PUT Method */
 /* It should be able to accept empty request body*/
-router.put('/', requestLogger, async(req, res) => {
+router.put('/put', requestLogger, async(req, res) => {
     setTimeout((()=>{res.json(req.log)}), req.log.responseTime);
 });
 
 /* DELETE Method */
-router.delete('/', requestLogger, async(req, res) => {
+router.delete('/delete', requestLogger, async(req, res) => {
     setTimeout((()=>{res.json(req.log)}), req.log.responseTime);
 });
 
