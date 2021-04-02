@@ -22,9 +22,6 @@ var chartColors = {
 	put: 'rgb(54, 162, 235)'
 };
 
-function randomScalingFactor() {
-	return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
-}
 
 function onRefresh(chart) {
 	const url = 'http://localhost:3000/getLogs';
