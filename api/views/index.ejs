@@ -1,75 +1,157 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0/dist/chartjs-plugin-streaming.min.js"></script>
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/min/moment.min.js"></script>
+	  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-  </head>
-  <body onload="loadChart();">
-    <h1><%= title %></h1>
-    <canvas id="myChart"></canvas>
-    <script>
-      var ctx = document.getElementById("myChart");
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-        labels: ['DELETE', 'PUT', 'POST', 'GET'],
-        datasets: [{
-            label: 'Requests',
-            data: [],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-        options: {
-          scales: {
-            xAxes: [],
-            yAxes: [{
-              ticks: {
-                beginAtZero:true
-              }
-            }]
-          }
-        }
-      });
-      var updateChart = function() {
-        $.ajax({
-          url: "http://localhost:3000/getLogs",
-          type: 'GET',
-          dataType: 'json',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-          },
-          success: function(data) {
-            console.log(data.methodType)
-            myChart.data.labels = data.methodType;
-            myChart.data.datasets[0].data = data;
-            myChart.update();
-          },
-          error: function(data){
-            console.log(data);
-          }
-        });
-      }
-      
-      updateChart();
-      setInterval(() => {
-        updateChart();
-      }, 1000);
-    </script>
-  </body>
+    </head>
+    <body>
+      <div>
+        <canvas id="myChart"></canvas>
+      </div>
+
+        <script>
+var chartColors = {
+	del: 'rgb(255, 99, 132)',
+	post: 'rgb(255, 205, 86)',
+	get: 'rgb(75, 192, 192)',
+	put: 'rgb(54, 162, 235)'
+};
+
+function randomScalingFactor() {
+	return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
+}
+
+function onRefresh(chart) {
+	const url = 'http://localhost:3000/getLogs';
+	fetch(url)
+	.then((resp) => resp.json()).then((apiData) =>{
+		apiData.forEach((element) => {
+			chart.config.data.datasets.forEach((dataset) => {
+				if(dataset.label == 'GET' && element.methodType == "GET"){
+					let itHas = dataset.data.some((item) =>{ return item.x === element.timeStamp;});
+					if(!itHas){
+						dataset.data.push({
+							x: element.timeStamp,
+							y: element.responseTime
+						});
+					}
+				}
+				if(dataset.label == 'POST' && element.methodType == "POST"){
+					let itHas = dataset.data.some((item) =>{ return item.x === element.timeStamp;});
+					if(!itHas){
+						dataset.data.push({
+							x: element.timeStamp,
+							y: element.responseTime
+						});
+					}
+				}
+				if(dataset.label == 'PUT' && element.methodType == "PUT"){
+					let itHas = dataset.data.some((item) =>{ return item.x === element.timeStamp;});
+					if(!itHas){
+						dataset.data.push({
+							x: element.timeStamp,
+							y: element.responseTime
+						});
+					}
+				}
+				if(dataset.label == 'DELETE' && element.methodType == "DELETE"){
+					let itHas = dataset.data.some((item) =>{ return item.x === element.timeStamp;});
+					if(!itHas){
+						dataset.data.push({
+							x: element.timeStamp,
+							y: element.responseTime
+						});
+					}
+				}
+			});
+		}); 
+	}).catch(function(error) {
+  		console.log(error);
+	});
+}
+
+var color = Chart.helpers.color;
+var config = {
+	type: 'line',
+	data: {
+		datasets: [{
+			label: 'GET',
+			backgroundColor: color(chartColors.get).alpha(0.5).rgbString(),
+			borderColor: chartColors.get,
+			fill: false,
+			cubicInterpolationMode: 'monotone',
+			data: []
+		},
+    {
+			label: 'POST',
+			backgroundColor: color(chartColors.post).alpha(0.5).rgbString(),
+			borderColor: chartColors.post,
+			fill: false,
+			cubicInterpolationMode: 'monotone',
+			data: []
+		},
+    {
+			label: 'PUT',
+			backgroundColor: color(chartColors.put).alpha(0.5).rgbString(),
+			borderColor: chartColors.put,
+			fill: false,
+			cubicInterpolationMode: 'monotone',
+			data: []
+		},
+    {
+			label: 'DELETE',
+			backgroundColor: color(chartColors.del).alpha(0.5).rgbString(),
+			borderColor: chartColors.del,
+			fill: false,
+			cubicInterpolationMode: 'monotone',
+			data: []
+		}]
+	},
+	options: {
+		title: {
+			display: true,
+			text: 'Live Dashboard'
+		},
+		scales: {
+			xAxes: [{
+				type: 'realtime',
+				realtime: {
+					duration: 3600000,
+					refresh: 1000,
+					delay: 2000,
+					onRefresh: onRefresh
+				}
+			}],
+			yAxes: [{
+				scaleLabel: {
+					display: true,
+					labelString: 'Response time (ms)'
+				}
+			}]
+		},
+		tooltips: {
+			mode: 'nearest',
+			intersect: false
+		},
+		hover: {
+			mode: 'nearest',
+			intersect: false
+		}
+	}
+};
+
+window.onload = function() {
+	var ctx = document.getElementById('myChart').getContext('2d');
+	window.myChart = new Chart(ctx, config);
+};
+
+
+
+        </script>
+    </body>
 </html>
+
+
+
