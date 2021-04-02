@@ -5,9 +5,12 @@
 	  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 	  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@1.8.0"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<title>Live Dashboard</title>
     </head>
     <body>
       <div>
+		  <center><h1>Live Dashboard</h1>
+			<p>You can filter the data with the buttons below.</p></center>
         <canvas id="myChart"></canvas>
       </div>
 
@@ -15,7 +18,7 @@
 var chartColors = {
 	del: 'rgb(255, 99, 132)',
 	post: 'rgb(255, 205, 86)',
-	get: 'rgb(75, 192, 192)',
+	get: 'rgb(0,255,0)',
 	put: 'rgb(54, 162, 235)'
 };
 
@@ -111,7 +114,7 @@ var config = {
 	},
 	options: {
 		title: {
-			display: true,
+			display: false,
 			text: 'Live Dashboard'
 		},
 		scales: {
@@ -121,8 +124,12 @@ var config = {
 					duration: 3600000,
 					refresh: 1000,
 					delay: 2000,
-					onRefresh: onRefresh
+					onRefresh: onRefresh,
+					displayFormats: {
+                        quarter: 'MMM YYYY'
+                    }
 				}
+
 			}],
 			yAxes: [{
 				scaleLabel: {
