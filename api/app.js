@@ -1,15 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var mongoose = require('mongoose');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
-var getLogsRouter = require('./routes/getLogs');
-var restApiRouter = require('./routes/restApi');
+const indexRouter = require('./routes/index');
+const getLogsRouter = require('./routes/getLogs');
+const restApiRouter = require('./routes/restApi');
 
-var app = express();
+const app = express();
 
 mongoose.connect('mongodb://mongo:27017/kartaca', {
   useNewUrlParser: true,
