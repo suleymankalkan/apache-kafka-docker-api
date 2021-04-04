@@ -17,16 +17,6 @@ const consumeLogs = async () => {
     await admin.connect();
     await consumer.connect()
     await consumer.subscribe({ topic: 'apilogs' ,fromBeginning: false })
-
-    /*await mongoose.connect('mongodb://mongo:27017/kartaca', {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true
-    }).then(() => {
-      console.log("MongoDB connected in consumer.");
-    }).catch((err) => {
-      console.log("MongoDB connection error in consumer!");
-    });*/
    
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {
