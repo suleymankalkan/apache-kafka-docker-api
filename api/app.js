@@ -11,16 +11,6 @@ const restApiRouter = require('./routes/restApi');
 
 const app = express();
 
-/*mongoose.connect('mongodb://mongo:27017/kartaca', {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log("MongoDB connected.");
-}).catch((err) => {
-  console.log("MongoDB connection error!");
-});*/
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
