@@ -1,7 +1,6 @@
 const {Kafka} = require('kafkajs');
-const mongoose = require('mongoose');
 const LogSchema = require('../models/logSchema');
-
+require('../helpers/mongoose');
 
 
 const consumeLogs = async () => {
@@ -19,7 +18,7 @@ const consumeLogs = async () => {
     await consumer.connect()
     await consumer.subscribe({ topic: 'apilogs' ,fromBeginning: false })
 
-    await mongoose.connect('mongodb://mongo:27017/kartaca', {
+    /*await mongoose.connect('mongodb://mongo:27017/kartaca', {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true
@@ -27,7 +26,7 @@ const consumeLogs = async () => {
       console.log("MongoDB connected in consumer.");
     }).catch((err) => {
       console.log("MongoDB connection error in consumer!");
-    });
+    });*/
    
     await consumer.run({
       eachMessage: async ({ topic, partition, message }) => {

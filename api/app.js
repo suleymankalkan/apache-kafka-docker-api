@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const mongoose = require('mongoose');
+require('./helpers/mongoose');
 
 const indexRouter = require('./routes/index');
 const getLogsRouter = require('./routes/getLogs');
@@ -11,7 +11,7 @@ const restApiRouter = require('./routes/restApi');
 
 const app = express();
 
-mongoose.connect('mongodb://mongo:27017/kartaca', {
+/*mongoose.connect('mongodb://mongo:27017/kartaca', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true
@@ -19,7 +19,7 @@ mongoose.connect('mongodb://mongo:27017/kartaca', {
   console.log("MongoDB connected.");
 }).catch((err) => {
   console.log("MongoDB connection error!");
-});
+});*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
